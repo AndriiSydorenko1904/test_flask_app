@@ -21,6 +21,6 @@ To install and running the application, you need to run the following commands f
 
 # After, you can use the service using command line tools like cURL
 ## for upload data:
-> curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@{filename}" http://127.0.0.1:5000/api/calculateDistances
+> curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@points.csv" http://127.0.0.1:5000/api/calculateDistances
 ## for retrieve a single stored task result object
 > curl http://127.0.0.1:5000/api/getResult?task={task_uuid}
