@@ -12,8 +12,11 @@ To install and running the application, you need to run the following commands f
 
 # Edit flask.service file and after to run the following commands
 > sudo cp flask.service /etc/systemd/system
+
 > sudo systemctl daemon-reload
+
 > sudo systemctl enable flask
+
 > sudo systemctl start flask
 
 # After, you can use the service using command line tools like cURL
