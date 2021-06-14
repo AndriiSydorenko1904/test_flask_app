@@ -14,6 +14,9 @@ def geo_reverse(lat: float, lon: float) -> str:
 
 
 def all_subsets(lst):
+    """
+    all combinations of two items from the list
+    """
     return itertools.chain(*map(lambda x: itertools.combinations(lst, x), range(2, 3)))
 
 

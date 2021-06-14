@@ -17,11 +17,21 @@ def processing(task_id, csv_input):
         lat, lon = float(lat), float(lon)
         name_geo = geo_reverse(lat, lon)
         point_tmp[name] = [lat, lon]
-        point = Point(point_name=name, latitude=lat, longitude=lon, task_id=task_id, address=name_geo)
+        point = Point(
+            point_name=name,
+            latitude=lat,
+            longitude=lon,
+            task_id=task_id,
+            address=name_geo
+        )
         db.session.add(point)
     for link_name in all_subsets(link_names):
         geo1, geo2 = point_tmp[link_name[0]], point_tmp[link_name[1]]
-        link = Link(task_id=task_id, link_name=''.join(link_name), distance=distance_meters(geo1, geo2))
+        link = Link(
+            task_id=task_id,
+            link_name=''.join(link_name),
+            distance=distance_meters(geo1, geo2)
+        )
         db.session.add(link)
     task = Task.query.get(task_id)
     task.status = 'done'
@@ -67,4 +77,6 @@ class ResultAPI(MethodView):
                     for link in Link.query.filter_by(task_id=task.id).all()
                 ]
             }
-        return jsonify({'task_id': task_uuid, 'status': task.status, 'data': data})
+        return jsonify(
+            {'task_id': task_uuid, 'status': task.status, 'data': data}
+        )
