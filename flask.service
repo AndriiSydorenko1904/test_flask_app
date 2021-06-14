@@ -1,0 +1,12 @@
+[Unit]
+Description=Flask web server
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User={USER}
+WorkingDirectory={absolutely path to the project}
+ExecStart=/bin/bash {absolutely path to the project}/start.sh
+Restart=always
