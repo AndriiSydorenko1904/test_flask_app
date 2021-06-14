@@ -38,14 +38,19 @@ def processing(task_id, csv_input):
     db.session.commit()
 
 
+def get_data_csv(f):
+    stream = io.StringIO(f.stream.read().decode("UTF8"), newline=None)
+    csv_input = csv.reader(stream)
+    next(csv_input)
+    return [row for row in csv_input]
+
+
 class CalculateDistancesAPI(MethodView):
     def post(self):
         f = request.files.get('data')
         if not f:
             return jsonify("file not loaded")
-        stream = io.StringIO(f.stream.read().decode("UTF8"), newline=None)
-        csv_input = csv.reader(stream)
-        next(csv_input)
+        csv_data = get_data_csv(f)
         task_uuid = str(uuid.uuid4())
 
         task = Task(uuid=task_uuid)
@@ -54,7 +59,7 @@ class CalculateDistancesAPI(MethodView):
         task_id = task.id
         db.session.commit()
 
-        task_cb = Process(target=processing, args=(task_id, csv_input))
+        task_cb = Process(target=processing, args=(task_id, csv_data))
         task_cb.start()
         return jsonify({'task_id': task_uuid, 'status': 'running'})
 
