@@ -1,6 +1,15 @@
+import csv
+import io
 import itertools
 from geopy import distance
 from geopy.geocoders import Nominatim
+
+
+def get_data_csv(f):
+    stream = io.StringIO(f.stream.read().decode("UTF8"), newline=None)
+    csv_input = csv.reader(stream)
+    next(csv_input)
+    return [row for row in csv_input]
 
 
 def geo_reverse(lat: float, lon: float) -> str:

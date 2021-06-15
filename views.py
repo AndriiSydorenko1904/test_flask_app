@@ -1,11 +1,9 @@
-import csv
-import io
 import uuid
 from multiprocessing import Process
 from flask import request, jsonify
 from flask.views import MethodView
 from database import db, Task, Point, Link
-from utils import geo_reverse, all_subsets, distance_meters
+from utils import geo_reverse, all_subsets, distance_meters, get_data_csv
 
 
 def processing(task_id, csv_input):
@@ -36,13 +34,6 @@ def processing(task_id, csv_input):
     task = Task.query.get(task_id)
     task.status = 'done'
     db.session.commit()
-
-
-def get_data_csv(f):
-    stream = io.StringIO(f.stream.read().decode("UTF8"), newline=None)
-    csv_input = csv.reader(stream)
-    next(csv_input)
-    return [row for row in csv_input]
 
 
 class CalculateDistancesAPI(MethodView):
